@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+  <!-- Coding by CodingLab | www.codinglabweb.com -->
+<html lang="en">
+<head>
+    <title>GREENROOFS</title>
+    <link rel="icon"  type = "image/jpg" href="images1/logo.png" />
+
+
+	<meta charset="utf-8">
+    <!--meta http-equiv="X-UA-Compatible" content="IE=edge"-->
+  	<meta name="description" content="Leaflet Coord Projection">
+  	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+	 
+
+	<!--link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.6.0/leaflet.css" /-->
+    <link rel="stylesheet" href="map.css">
+	<link rel="stylesheet" href="https://edihasaj.github.io/leaflet-coord-projection/coord-projection.css"/>
+	<link href="https://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" rel="stylesheet"/>
+    
+	<!--localisation /-->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet.locatecontrol@0.78.0/dist/L.Control.Locate.min.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" /> 
+
+    <link rel="stylesheet" href="//unpkg.com/leaflet@1.8.0/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.css" />
+    
+
+	<!--search bar /-->
+     <!--<link href="//unpkg.com/leaflet@1.6.0/dist/leaflet.css" rel="stylesheet"> /-->
+    <link rel="stylesheet" href="//unpkg.com/@sjaakp/leaflet-search/dist/leaflet-search.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
+
+    <style>
+
+		.leaflet-container {
+			height: 400px;
+			width: 600px;
+			max-width: 100%;
+			max-height: 100%;
+		}
+	</style>
+    
+    <!----======== CSS ======== -->
+    <link rel="stylesheet" href="css.css">
+    
+    <!----===== Boxicons CSS ===== -->
+    <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
+     
+    
+</head>
+<body onload="hideLoader()">
+    <div id="loader"></div>
+    <nav class="sidebar close">
+        <header>
+            <div class="image-text">
+                <span class="image">
+                    <img src="images1/logo.png" alt="">
+                </span>
+
+                <div class="text logo-text">
+                    <span class="name">GREENROOFS-GEO</span>
+                    <span class="profession">GEOPORTAIL</span>
+                </div>
+            </div>
+
+            <i class='bx bx-chevron-right toggle'></i>
+        </header>
+
+        <div class="menu-bar">
+            <div class="menu">
+
+                <ul class="menu-links">
+                    
+                    <li class="nav-link">
+                        <button href="#" onclick='hideDiv("myDiv");hide_other_divs("myDiv");'>
+                            <i class='bx bxs-spreadsheet bx-flashing icon' ></i>
+                            <span class="text navtext">A PROPOS</span>
+                        </button>
+                    </li>
+                    <div id="myDiv" class="DIV" style="display: none;" onclick="">
+                        <hr>
+                        <p style="font-size: 14px;">Le Géoportail <b>GREENROOFS-GEO</b>, un portail web de la commune HAY HASSANI de la région de Casablanca-Settat qui présente les toits propices à l'intégration de l'agriculture verticale en indiquant les formes de projets, les systèmes de production et les types de cultures spécifiques pour chaque toit.
+                            ce Géoportail est mis en oeuvre par deux étudiantes: <b>LAHYAN OUIJDANE</b>, et <b>SBIKI HAJAR</b>. Sous l'encadrement de: <b>Mme.SEBARI IMANE</b>, et <b>Mr.BAHI HICHAM</b>.
+                        </p>
+                    </div>
+
+                    <li class="nav-link">
+                        <button href="#" onclick='hideDiv("DivTOIT");hide_other_divs("DivTOIT");'>
+                            <i class='bx bxs-city bx-flashing icon' ></i>
+                            <span class="text nav-text">TOITS PROPICES</span>
+                        </button>
+                    </li>
+                    <div id="DivTOIT" class="DIV" style="display: none;">
+                        <hr>
+                        <p>Consultez les détails spécifiques de chaque toit liés à l'agriculture verticale.</p>
+                        <button id="btnfour" onclick="showTOIT();"><b>Afficher les toits favorables à l'agriculture verticale</b></button>
+                        <h4>PS: Cliquez sur le toit que vous voulez Pour afficher les données relatives à ce toit. </h4>
+                    </div>
+                    <li class="nav-link">
+                        <button href="#"onclick='hideDiv("DivPROJET");hide_other_divs("DivPROJET");'>
+                            <i class='bx bxl-product-hunt bx-flashing icon' ></i>
+                            <span class="text nav-text">FORMES DE PROJETS</span>
+                        </button>
+                    </li>
+                    <div id="DivPROJET" class="DIV" style="display: none;">
+                        <hr>
+                        <p>La carte choroplèthe des formes de projet adéquates pour chaque toit.</p>
+                        <h4>Cliquez sur le bouton pour afficher la carte choroplèthe intéractive: </h4>
+                        <button id="btnfour" onclick="showPROJET();"style="display: flex; justify-content: center; align-items: center;"><b>TYPE DE PROJET</b></button>
+                    </div>
+                    <li class="nav-link">
+                        <button href="#"onclick='hideDiv("DivTEC");hide_other_divs("DivTEC");'>
+                            <i class='bx bx-wrench bx-flashing bx-rotate-270 icon' ></i>
+                            <span class="text nav-text">SYSTEMES DE PRODUCTION </span>
+                        </button>
+                    </li>
+                    <div id="DivTEC" class="DIV" style="display: none;">
+                        <hr>
+                        <p>La carte choroplèthe des techniques de production d'agriculture verticale adéquates pour chaque toit.</p>
+                        <h4>Cliquez sur le bouton pour afficher la carte choroplèthe intéractive: </h4>
+                        <button id="btnfour" onclick="showTEC();"style="display: flex; justify-content: center; align-items: center;"><b>Les techniques de production</b></button>
+                    </div>
+                    <li class="nav-link">
+                        <button href="#"onclick='hideDiv("Divculture");hide_other_divs("Divculture");'>
+                            <i class='bx bxs-leaf bx-flashing icon' ></i>
+                            <span class="text nav-text">TYPE DE CULTURE </span>
+                        </button>
+                    </li>
+                    <div id="Divculture" class="DIV" style="display: none;">
+                        <hr>
+                        <p>La carte choroplèthe de type de culture spécifique pour chaque toit selon la saison.</p>
+                        <h4>Cliquez sur le bouton pour afficher la carte choroplèthe intéractive: </h4>
+                        <button id="btnfour" onclick="showcultete();"style="display: flex; justify-content: center; align-items: center;"><b>Le type de culture en été</b></button>
+                        <button id="btnfour" onclick="showcultpr();"style="display: flex; justify-content: center; align-items: center;"><b>Le type de culture en printemps</b></button>
+                        <button id="btnfour" onclick="showculth();"style="display: flex; justify-content: center; align-items: center;"><b>Le type de culture en hiver</b></button>
+                        <button id="btnfour" onclick="showculta();"style="display: flex; justify-content: center; align-items: center;"><b>Le type de culture en automne</b></button>
+                    </div> 
+                    
+                    <li class="nav-link">
+                        <button href="#"onclick='hideDiv("Divscore");hide_other_divs("Divscore");'>
+                            <i class='bx bx-stats bx-flashing icon' ></i>
+                            <span class="text nav-text">ÉVALUATION DES TOITS </span>
+                        </button>
+                    </li>
+                    <div id="Divscore" class="DIV" style="display: none;">
+                        <hr>
+                        <p>La carte choroplèthe de la potentialité d'intégration de l'agriculture verticale sur ce toit : Analyse basée sur la destination du bâtiment, le plan d'aménagement, la superficie...</p>
+                        <h4>Cliquez sur le bouton pour afficher la carte choroplèthe intéractive: </h4>
+                        <button id="btnfour" onclick="showscore();"style="display: flex; justify-content: center; align-items: center;"><b>Le score des toits</b></button>
+                    </div>
+
+                </ul>
+            </div>
+
+            <div class="bottom-content">
+                <li class="">
+                    <button onclick='reset_all()'>
+                        <i class='bx bx-reset bx-spin bx-flip-horizontal icon' ></i>
+                        <span class="text nav-text">ACTUALISER LA MAP</span>
+                    </button>
+                </li>
+                <li class="nav-link">
+                    <button href="#" onclick="refresh()" value="Rafraichir">
+                        <i class='bx bx-refresh bx-spin bx-rotate-90 icon' ></i>
+                        <span class="text navtext">RECHARGER LA PAGE</span>
+                    </button>
+                </li>
+
+                <li class="mode">
+                    <div class="sun-moon">
+                        <i class='bx bx-moon icon moon'></i>
+                        <i class='bx bx-sun icon sun'></i>
+                    </div>
+                    <span class="mode-text text">Dark mode</span>
+
+                    <div class="toggle-switch">
+                        <span class="switch"></span>
+                    </div>
+                </li>
+                
+            </div>
+        </div>
+
+    </nav>
+
+    <section class="home">
+        <div class="text"><b>🌱TOITS PROPICES A L'AGRICULTURE VERTICALE</b></div>
+        <div id="map" style="width: 1190px; height: 680px; margin: 10px; margin-left: 40px;"></div>
+    </section>
+    
+    <!-- leaflet-->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.6.0/leaflet.js"></script>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/proj4js/2.6.0/proj4.js"></script>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/proj4leaflet/1.0.2/proj4leaflet.min.js"></script>
+	<script type="text/javascript" src="https://edihasaj.github.io/leaflet-coord-projection/coord-projection.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/leaflet.locatecontrol@0.78.0/dist/L.Control.Locate.min.js" charset="utf-8"></script>
+    <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
+    <!-- <script src="//unpkg.com/leaflet@1.6.0/dist/leaflet.js"></script>-->
+    <script src="//unpkg.com/@sjaakp/leaflet-search/dist/leaflet-search.js"></script>
+	
+    <script src="https://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
+   
+    <script src="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.js"></script>
+    <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Turf.js/2.0.2/turf.min.js"></script>
+
+    
+
+  
+
+	<!-- fichiers GeoJson-->
+    <script src="TOITS1.geojson" type="text/javascript" ></script>
+    <script src="TOITS2.geojson" type="text/javascript" ></script>
+
+   
+    
+ <script src="script.js"></script> 
+ <script src="//unpkg.com/leaflet@1.8.0/dist/leaflet.js"></script>
+ 
+    <!-- contenu du geoportail-->
+    <script>
+
+/// Basemaps variables
+	var osm = L.tileLayer('http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {
+    maxZoom: 20,
+    attribution: '<div class="attribution"> cartocdn </div>'
+});
+   var satellite = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+    maxZoom: 20,
+    attribution: '<div class="attribution">Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community</div>'
+});
+
+var baseMaps = {
+    'Map 2D': osm,
+    'satellite': satellite,
+};
+
+
+///// initialisation de la variable map
+
+var map = L.map('map', {
+    center: [33.575363, -7.669007],
+    zoom: 17,
+    layers: satellite
+});
+
+
+var layerControl = L.control.layers(baseMaps).addTo(map);
+
+
+///coordinates
+L.control.coordProjection({
+            crs: 'EPSG4326'
+        }).addTo(map);
+
+///localisation
+L.control.locate().addTo(map);
+
+/////itinéraire//////
+//map.on('click', function(e){
+    //var gotolat = e.latlng.lat
+    //var gotolng = e.latlng.lng
+    //map.locate().on("locationfound", (i)=>{
+        //console.log(i.latlng)
+        //L.Routing.control({
+  //waypoints: [
+   // L.latLng(i.latlng.lat,i.latlng.lng),
+   // L.latLng(gotolat,gotolng)
+ // ]
+  //}).addTo(map)
+    //}) 
+    
+    // console.log("arr",test)
+    // var destination= L.marker([e.latlng.lat,e.latlng.lng])
+    
+//   map.locate().on("locationfound", function (e) {
+// 	var pos = L.marker([e.latitude, e.longitude]).bindPopup('Your are here :)').addTo(map);
+//             var circle = L.circle([e.latitude, e.longitude], e.accuracy/2, {
+//                 weight: 1,
+//                 color: 'blue',
+//                 fillColor: '#cacaca',
+//                 fillOpacity: 0.2
+//             });
+// 			control.spliceWaypoints(0, 1, e.latlng);
+//             // map.addLayer(pos);
+//             // map.addLayer(circle);
+// 			map.setView(e.latlng);
+//   })
+//     .addTo(map);
+//});
+
+
+//SEARCH
+L.Control.geocoder().addTo(map);
+    
+var baseMaps = {
+    "<span style='color: gray'>Grayscale</span>": grayscale ,
+};
+
+
+
+
+
+
+
+</script>
+
+</body>
+</html>
